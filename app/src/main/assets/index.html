@@ -1,0 +1,827 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+          rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+      *,
+      html,
+      body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        color: #333;
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        background-color: #dfe6e9;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #4caf50;
+        border-radius: 10px;
+      }
+      .hidden {
+        display: none !important;
+      }
+      #banner {
+        aspect-ratio: 6.4/1;
+        max-width: 500px;
+        background-color: #333;
+        cursor: pointer;
+      }
+      .form_container {
+        min-width: 100vw;
+        min-height: 100vh;
+        background-color: rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        flex-direction: column;
+      }
+      #form {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        padding: 35px 25px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 10px;
+        max-height: 500px;
+        overflow-y: scroll;
+        position: relative;
+      }
+      h3 {
+        font-weight: 500;
+        font-size: 15px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+      }
+      .flex {
+        display: flex;
+      }
+      .flex > .form_field:first-child {
+        margin-right: 15px;
+      }
+      .flex > .form_field {
+        width: 50%;
+      }
+      .form_field {
+        margin-bottom: 10px;
+      }
+      input {
+        font: 13px "Roboto", sans-serif;
+        color: #333;
+        box-sizing: border-box;
+        letter-spacing: 1px;
+        padding: 10px 5px;
+        border: none;
+      }
+      .effect {
+        border: 0;
+        border-bottom: 1px solid #ccc;
+        width: 100%;
+      }
+      input:focus {
+        outline: none;
+      }
+      select {
+        font: 13px "Roboto", sans-serif;
+        color: #333;
+        width: 100%;
+        box-sizing: border-box;
+        letter-spacing: 1px;
+        padding: 8px 3px;
+        flex: 1;
+        border: none;
+        width: 100%;
+      }
+      select:focus {
+        outline: none;
+      }
+      h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      .effect ~ .focus-border {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #4caf50;
+        transition: 0.4s;
+      }
+      .effect:focus ~ .focus-border {
+        width: 100%;
+        transition: 0.4s;
+      }
+      .field_container {
+        position: relative;
+        margin-bottom: 10px;
+        flex: 1;
+      }
+      .flex .field_container:first-child {
+        margin-right: 15px;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .submit_button {
+        color: white;
+        background: linear-gradient(to right, #4caf50, #568e58);
+        border-radius: 8px;
+        transition: 0.2s ease-in-out;
+        padding: 12px 15px;
+        font: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        text-align: center;
+        margin: 1em;
+      }
+      .close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+      }
+      .submit_button:hover {
+        border-radius: 30px;
+      }
+      #ty_modal {
+        background-color: #fff;
+        padding: 35px 25px 0;
+        max-width: 350px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #ty_modal h3 {
+        font-weight: 700;
+        font-size: 30px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      #ty_modal p {
+        font-size: 13px;
+        color: #333;
+        text-align: center;
+      }
+      #ty_modal img {
+        max-width: 100px;
+        margin-bottom: 30px;
+      }
+
+      .toggle {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 33px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+        border-radius: 50px;
+        overflow: hidden;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background-color: #707070;
+        transition: background-color ease 0.3s;
+      }
+
+      .toggle:before {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: 1;
+        width: 14px;
+        height: 14px;
+        background: #fff;
+        left: 2px;
+        top: 2.5px;
+        border-radius: 50%;
+        font: 10px/28px Helvetica;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-indent: -11px;
+        word-spacing: 18px;
+        color: #fff;
+        text-shadow: -1px -1px rgba(0, 0, 0, 0.15);
+        white-space: nowrap;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+      }
+
+      .toggle:checked {
+        background-color: #4caf50;
+      }
+
+      .toggle:checked:before {
+        left: 16px;
+      }
+      .toggle_flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        padding: 10px 6px;
+      }
+    </style>
+</head>
+<body>
+<div class="widget">
+  <!-- <image src="./pexels-photo-3473085.jpeg" alt="banner_image" id="banner" />
+   -->
+  <div id="banner">
+    Widget
+  </div>
+</div>
+<div class="form_container hidden" id="form_container">
+  <form id="form">
+    <span class="close" id="close">x</span>
+    <h2>Loan Type</h2>
+
+    <div class="field_container">
+      <select class="effect" id="loan_type">
+        <option>Personal Loan</option>
+        <option>Business Loan</option>
+        <option>Gold Loan</option>
+        <option>Home Loan</option>
+        <option>Loan against property</option>
+      </select>
+      <span class="focus-border"></span>
+    </div>
+    <h2>Personal Details</h2>
+
+    <div class="flex">
+      <div class="field_container">
+        <input type="text" placeholder="First Name" class="effect" />
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input type="text" class="effect" placeholder="Last Name" />
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div class="flex">
+      <div class="field_container">
+        <input type="date" class="effect" placeholder="Date of birth" />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="tel"
+                class="effect"
+                maxlength="10"
+                placeholder="Mobile Number"
+                style="padding: 11px 5px"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div class="field_container">
+      <input class="effect" type="email" placeholder="Email Address" />
+
+      <span class="focus-border"></span>
+    </div>
+    <div class="field_container">
+      <input type="text" class="effect" placeholder="Current Address" />
+
+      <span class="focus-border"></span>
+    </div>
+
+    <div class="flex">
+      <div class="field_container">
+        <select placeholder="state" class="effect">
+          <option>Punjab</option>
+          <option>Uttrakhand</option>
+          <option>Haryana</option>
+          <option>Uttar Pradesh</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <select placeholder="city" class="effect">
+          <option>Hoshiarpur</option>
+          <option>Mansa</option>
+          <option>Bathinda</option>
+          <option>Karachi</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div class="field_container">
+      <input
+              type="password"
+              max="10"
+              placeholder="PAN Number"
+              class="effect"
+      />
+      <span class="focus-border"></span>
+    </div>
+    <div class="field_container">
+      <input type="text" placeholder="Primary Bank Name" class="effect" />
+      <span class="focus-border"></span>
+    </div>
+    <h2>Work Info</h2>
+    <div class="field_container">
+      <select id="work" class="effect">
+        <option value="" disabled selected hidden>
+          Type of Employment
+        </option>
+
+        <option value="1">Salaried</option>
+        <option value="2">Self Employed Professional</option>
+        <option value="3">Self Employed Business</option>
+        <option value="4">Student</option>
+        <option value="5">Home Maker</option>
+        <option value="6">Others</option>
+      </select>
+      <span class="focus-border"></span>
+    </div>
+    <div id="work_1" class="hidden">
+      <div class="field_container">
+        <select class="effect">
+          <option value="" disabled selected hidden>Type of Company</option>
+          <option value="1">Government</option>
+          <option value="2">PSU</option>
+          <option value="3">MNC</option>
+          <option value="4">Pubic Limited Company</option>
+          <option value="5">Private Limited Company</option>
+          <option value="6">Partnership</option>
+          <option value="6">Proprietorship</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input type="text" class="effect" placeholder="Employer Name" />
+
+        <span class="focus-border"></span>
+      </div>
+
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Total Work experience (in months)"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Work experience in current organisation (in months)"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+
+      <div class="field_container">
+        <select id="salary_mode" class="effect">
+          <option value="" disabled selected hidden>
+            Salary Credit Mode
+          </option>
+
+          <option value="1">Cash</option>
+          <option value="2">Cheque</option>
+          <option value="3">NEFT</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                id="bank_account"
+                placeholder="Salary account (Bank Name)"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Monthly In Hand Salary"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Current monthly obligations / EMI"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect" id="pf">
+          Is PF getting deducted from salary?
+          <input class="toggle" type="checkbox" />
+        </div>
+        <!-- <select class="effect">
+          <option value="" disabled selected hidden>
+            Is PF getting deducted from salary?
+          </option>
+
+          <option value="1">Yes</option>
+          <option value="2">No</option>
+        </select> -->
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div id="work_2" class="hidden">
+      <div class="field_container">
+        <select class="effect">
+          <option value="" disabled selected hidden>Profession type</option>
+          <option value="1">Doctor</option>
+          <option value="2">Teacher</option>
+          <option value="3">CA</option>
+          <option value="4">CS</option>
+          <option value="5">Architect</option>
+          <option value="6">Lawyer</option>
+          <option value="6">Other Consultant</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="text"
+                class="effect"
+                placeholder="Name of business firm"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Number of years in business"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Annual Turnover (Last FY)"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Gross turnover year before last year"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Are Audited financials available for last 2 yrs?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Are GST returns available for last 12 months?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Is Bank statement available for last 12 months?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Current monthly obligations"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Ever defaulted on any loan or credit card?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Net Monthly Income"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Net worth"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <select class="effect">
+          <option value="" disabled selected hidden>
+            What's the status of office ownership?
+          </option>
+          <option value="1">Rented</option>
+          <option value="6">Owned</option>
+        </select>
+
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div id="work_3" class="hidden">
+      <div class="field_container">
+        <select class="effect">
+          <option value="" disabled selected hidden>Profession type</option>
+          <option value="1">Manufacturing</option>
+          <option value="2">Trading</option>
+          <option value="3">Services</option>
+          <option value="4">KPO</option>
+          <option value="5">BPO</option>
+          <option value="6">Software</option>
+          <option value="6">Others</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="text"
+                class="effect"
+                placeholder="Name of business firm"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Number of years in business"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Annual Turnover (Last FY)"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Gross turnover year before last year"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Are Audited financials available for last 2 yrs?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Are GST returns available for last 12 months?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Is Bank statement available for last 12 months?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Current monthly obligations"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <div class="toggle_flex effect">
+          Have you ever defaulted on any loan or credit card?
+          <input class="toggle" type="checkbox" />
+        </div>
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Net Monthly Income"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Net worth"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <select class="effect">
+          <option value="" disabled selected hidden>
+            What's the status of office ownership?
+          </option>
+          <option value="1">Rented</option>
+          <option value="6">Owned</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div id="work_4" class="hidden">
+      <div class="field_container">
+        <select class="effect">
+          <option value="" disabled selected hidden>I am pursuing</option>
+          <option value="1">Graduation</option>
+          <option value="2">Post Graduation</option>
+          <option value="3">Doctor</option>
+          <option value="4">Professional</option>
+          <option value="5">Diploma</option>
+        </select>
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input type="text" class="effect" placeholder="My Institute Name" />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Current monthly obligations / EMI"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Monthly In Hand Salary"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <div id="work_5" class="hidden">
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Current monthly obligations / EMI"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+      <div class="field_container">
+        <input
+                type="number"
+                min="0"
+                class="effect"
+                placeholder="Monthly In Hand Salary"
+        />
+
+        <span class="focus-border"></span>
+      </div>
+    </div>
+    <h2>Loan Requirement Info</h2>
+    <div class="field_container">
+      <input
+              type="number"
+              placeholder="Loan Amount"
+              min="0"
+              class="effect"
+      />
+      <span class="focus-border"></span>
+    </div>
+    <div class="field_container">
+      <input
+              type="number"
+              placeholder="Tenure (months)"
+              min="0"
+              class="effect"
+      />
+      <span class="focus-border"></span>
+    </div>
+    <div class="field_container">
+      <input
+              type="text"
+              placeholder="Purpose of Loan"
+              min="0"
+              class="effect"
+      />
+      <span class="focus-border"></span>
+    </div>
+    <a href="#" id="submit_button" class="submit_button">Submit</a>
+  </form>
+  <div id="ty_modal" class="hidden">
+    <img src="./success-icon-23194.png" alt="success" />
+    <h3>Thank You.</h3>
+    <p>
+      Your form has been submitted and we will be contacting you shortly to
+      follow up.
+    </p>
+    <a href="#" id="ty_button" class="submit_button">Ok</a>
+  </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="./app.js"></script>
+</html>
