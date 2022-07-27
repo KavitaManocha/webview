@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         var webView =  WebView(this)
 //Create WebView At Run Time
         webView.settings.javaScriptEnabled = true
-        webView.loadUrl("file:///android_asset/indexx.html")
+        webView.loadUrl("https://widget-android-8a482.web.app/")
         setContentView(webView)
 
 
