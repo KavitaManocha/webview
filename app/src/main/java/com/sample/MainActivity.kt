@@ -1,12 +1,10 @@
 package com.sample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.webkit.JsResult
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +24,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(webView)
 
 
-        val webSettings = webView.getSettings()
-        webSettings.setJavaScriptEnabled(true)
-        webView.setWebChromeClient(WebChromeClient())
+        val webSettings = webView.settings
+        webSettings.javaScriptEnabled = true
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
+        webView.setInitialScale(1)
+        webView.settings.useWideViewPort = true
+       webView.settings.loadWithOverviewMode = true
+
     }
-
-
 
 }
